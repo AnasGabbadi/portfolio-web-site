@@ -26,10 +26,8 @@ const Navbar = () => {
   const navLinks = [
     { href: '#home', label: t('home') },
     { href: '#about', label: t('about') },
-    { href: '#services', label: t('services') },
     { href: '#skills', label: t('skills') },
     { href: '#projects', label: t('projects') },
-    { href: '#testimonials', label: t('testimonials') },
     { href: '#contact', label: t('contact') },
   ];
 
