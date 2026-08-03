@@ -1,0 +1,116 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "about": "À propos",
+    "services": "Services",
+    "skills": "Compétences",
+    "projects": "Projets",
+    "testimonials": "Témoignages",
+    "contact": "Contact"
+  },
+  "hero": {
+    "greeting": "Salut, je suis",
+    "description": "Passionné par la création de solutions web performantes, j’ai travaillé sur plusieurs projets académiques, stages en entreprise et missions freelance.",
+    "hireMe": "Engagez-moi",
+    "viewProjects": "Voir les projets",
+    "availableForWork": "Disponible pour travailler"
+  },
+  "about": {
+    "title": "À",
+    "highlight": "Propos",
+    "subtitle": "Développeur Full Stack & Designer UI/UX",
+    "description1": "Étudiant en 4ème année cycle d’ingénieur en informatique, avec une expérience dans plusieurs projets académiques, stages en entreprise et prestations freelance. J’aime concevoir et développer des applications web performantes, sécurisées et bien structurées.",
+    "description2": "Mon approche combine l'excellence technique avec la résolution créative de problèmes pour créer des applications intuitives et conviviales qui répondent aux objectifs commerciaux tout en offrant des expériences utilisateur exceptionnelles.",
+    "name": "Nom",
+    "phone": "Téléphone",
+    "location": "Localisation",
+    "birthday": "Anniversaire",
+    "email": "Email",
+    "degree": "Diplôme",
+    "downloadCV": "Télécharger CV",
+    "yearsExperience": "Années d'expérience"
+  },
+  "career": {
+    "title": "Mon",
+    "highlight": "Parcours",
+    "description": "Formation et expériences qui structurent mon évolution dans le développement web.",
+    "educationTitle": "Formation",
+    "experienceTitle": "Expériences professionnelles",
+    "showMore": "Afficher plus",
+    "showLess": "Afficher moins"
+  },
+  "services": {
+    "title": "Mes",
+    "highlight": "Services",
+    "description": "J'offre une large gamme de services pour aider les entreprises et les particuliers à créer des expériences numériques percutantes.",
+    "learnMore": "En savoir plus"
+  },
+  "skills": {
+    "title": "Mes",
+    "highlight": "Compétences",
+    "description": "J'ai développé une expertise dans diverses technologies et outils tout au long de ma carrière.",
+    "technicalSkills": "Compétences techniques",
+    "professionalSkills": "Compétences professionnelles",
+    "technologies": "Technologies que j'utilise",
+    "showMore": "Afficher plus",
+    "showLess": "Afficher moins"
+  },
+  "projects": {
+    "title": "Mes",
+    "highlight": "Projets",
+    "description": "Découvrez certains de mes travaux récents qui mettent en valeur mes compétences et mon expertise.",
+    "all": "Tous",
+    "school": "Scolaire",
+    "internship": "Stage",
+    "professional": "Professionnel",
+    "web": "Web",
+    "app": "Application",
+    "design": "Design",
+    "viewDetails": "Voir les détails",
+    "liveDemo": "Démo en direct",
+    "github": "GitHub",
+    "gallery": "Galerie du projet",
+    "technologies": "Technologies utilisées",
+    "backToProjects": "Retour aux projets",
+    "showMore": "Afficher plus",
+    "showLess": "Afficher moins"
+  },
+  "testimonials": {
+    "title": "Témoignages",
+    "highlight": "Clients",
+    "description": "Ce que mes clients disent de travailler avec moi."
+  },
+  "contact": {
+    "title": "Entrer en",
+    "highlight": "Contact",
+    "description": "Vous avez un projet en tête ou vous souhaitez discuter d'opportunités potentielles ? N'hésitez pas à me contacter !",
+    "contactInfo": "Informations de contact",
+    "sendMessage": "Envoyez-moi un message",
+    "name": "Nom",
+    "email": "Email",
+    "subject": "Sujet",
+    "message": "Message",
+    "yourName": "Votre nom",
+    "yourEmail": "Votre email",
+    "yourMessage": "Votre message",
+    "send": "Envoyer le message",
+    "followMe": "Suivez-moi",
+    "location": "Localisation",
+    "phone": "Téléphone",
+    "website": "Site web"
+  },
+  "footer": {
+    "description": "Créer des expériences numériques qui inspirent et engagent. Transformer les idées en réalité à travers le code.",
+    "quickLinks": "Liens rapides",
+    "services": "Services",
+    "contact": "Contact",
+    "newsletter": "Newsletter",
+    "newsletterDescription": "Abonnez-vous pour recevoir les dernières mises à jour et actualités.",
+    "subscribe": "S'abonner",
+    "rights": "Tous droits réservés. Créé avec",
+    "by": "par",
+    "privacy": "Politique de confidentialité",
+    "terms": "Conditions d'utilisation",
+    "cookies": "Politique des cookies"
+  }
+}

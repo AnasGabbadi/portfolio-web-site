@@ -1,0 +1,116 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "skills": "Skills",
+    "projects": "Projects",
+    "testimonials": "Testimonials",
+    "contact": "Contact"
+  },
+  "hero": {
+    "greeting": "Hi, I'm",
+    "description": "I create beautiful, responsive websites and applications with clean code and exceptional user experiences.",
+    "hireMe": "Hire Me",
+    "viewProjects": "View Projects",
+    "availableForWork": "Available for work"
+  },
+  "about": {
+    "title": "About",
+    "highlight": "Me",
+    "subtitle": "Full Stack Developer & UI/UX Designer",
+    "description1": "I'm a passionate developer with expertise in creating modern web applications. With over 5 years of experience, I've worked with various technologies and frameworks to deliver high-quality solutions for clients across different industries.",
+    "description2": "My approach combines technical excellence with creative problem-solving to build intuitive, user-friendly applications that meet business objectives while providing exceptional user experiences.",
+    "name": "Name",
+    "phone": "Phone",
+    "location": "Location",
+    "birthday": "Birthday",
+    "email": "Email",
+    "degree": "Degree",
+    "downloadCV": "Download CV",
+    "yearsExperience": "Years of Experience"
+  },
+  "career": {
+    "title": "My",
+    "highlight": "Journey",
+    "description": "Education and professional experience that shape my growth as a web developer.",
+    "educationTitle": "Education",
+    "experienceTitle": "Professional Experience",
+    "showMore": "Show more",
+    "showLess": "Show less"
+  },
+  "services": {
+    "title": "My",
+    "highlight": "Services",
+    "description": "I offer a wide range of services to help businesses and individuals create impactful digital experiences.",
+    "learnMore": "Learn More"
+  },
+  "skills": {
+    "title": "My",
+    "highlight": "Skills",
+    "description": "I've developed expertise in various technologies and tools throughout my career.",
+    "technicalSkills": "Technical Skills",
+    "professionalSkills": "Professional Skills",
+    "technologies": "Technologies I Work With",
+    "showMore": "Show more",
+    "showLess": "Show less"
+  },
+  "projects": {
+    "title": "My",
+    "highlight": "Projects",
+    "description": "Check out some of my recent work that showcases my skills and expertise.",
+    "all": "All",
+    "school": "School",
+    "internship": "Internship",
+    "professional": "Professional",
+    "web": "Web",
+    "app": "App",
+    "design": "Design",
+    "viewDetails": "View Details",
+    "liveDemo": "Live Demo",
+    "github": "GitHub",
+    "gallery": "Project gallery",
+    "technologies": "Technologies used",
+    "backToProjects": "Back to projects",
+    "showMore": "Show more",
+    "showLess": "Show less"
+  },
+  "testimonials": {
+    "title": "Client",
+    "highlight": "Testimonials",
+    "description": "What my clients say about working with me."
+  },
+  "contact": {
+    "title": "Get In",
+    "highlight": "Touch",
+    "description": "Have a project in mind or want to discuss potential opportunities? Feel free to reach out!",
+    "contactInfo": "Contact Information",
+    "sendMessage": "Send Me a Message",
+    "name": "Name",
+    "email": "Email",
+    "subject": "Subject",
+    "message": "Message",
+    "yourName": "Your Name",
+    "yourEmail": "Your Email",
+    "yourMessage": "Your Message",
+    "send": "Send Message",
+    "followMe": "Follow Me",
+    "location": "Location",
+    "phone": "Phone",
+    "website": "Website"
+  },
+  "footer": {
+    "description": "Building digital experiences that inspire and engage. Transforming ideas into reality through code.",
+    "quickLinks": "Quick Links",
+    "services": "Services",
+    "contact": "Contact",
+    "newsletter": "Newsletter",
+    "newsletterDescription": "Subscribe to get the latest updates and news.",
+    "subscribe": "Subscribe",
+    "rights": "All rights reserved. Crafted with",
+    "by": "by",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "cookies": "Cookie Policy"
+  }
+}
