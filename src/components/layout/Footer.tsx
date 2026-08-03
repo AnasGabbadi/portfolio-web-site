@@ -245,7 +245,7 @@ const Footer = () => {
               textAlign: { xs: 'center', md: 'left' },
             }}
           >
-            &copy; {currentYear} GABBADI Anas. All rights reserved. Crafted with{' '}
+            &copy; {currentYear}. All rights reserved. Crafted with{' '}
             <Box 
               component="span" 
               sx={{ 
@@ -260,7 +260,7 @@ const Footer = () => {
             >
               ♥
             </Box>{' '}
-            by Alex Johnson
+            by GABBADI Anas
           </Typography>
 
           <Stack 
