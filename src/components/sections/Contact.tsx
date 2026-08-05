@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import {
   Box,
   Container,
@@ -13,6 +13,8 @@ import {
   CardContent,
   Stack,
   IconButton,
+  Snackbar,
+  Alert,
 } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import EmailIcon from '@mui/icons-material/Email';
@@ -21,16 +23,18 @@ import LanguageIcon from '@mui/icons-material/Language';
 import SendIcon from '@mui/icons-material/Send';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import TwitterIcon from '@mui/icons-material/Twitter';
+import { personalInfo } from '@/data/personal-info';
 
 const Contact = () => {
   const t = useTranslations('contact');
+  const locale = useLocale() as 'fr' | 'en';
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
     message: '',
   });
+  const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -41,30 +45,38 @@ const Contact = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    // Mode démo : aucun backend n'est branché sur ce formulaire.
+    // On évite alert()/confirm() qui bloquent le thread JS de la page.
     console.log('Form submitted:', formData);
-    alert('Message sent! (Demo mode)');
+    setSubmitted(true);
     setFormData({ name: '', email: '', subject: '', message: '' });
+  };
+
+  const socialIconMap: Record<string, React.ReactNode> = {
+    GitHub: <GitHubIcon />,
+    LinkedIn: <LinkedInIcon />,
+    Email: <EmailIcon />,
   };
 
   const contactInfo = [
     {
       icon: <LocationOnIcon sx={{ fontSize: 24 }} />,
       title: t('location'),
-      value: 'Fés, Maroc',
+      value: personalInfo.location[locale],
       bgColor: '#4988C4',
       iconColor: '#F9FAFB',
     },
     {
       icon: <EmailIcon sx={{ fontSize: 24 }} />,
       title: t('email'),
-      value: 'anas0gabbadi@gmail.com',
+      value: personalInfo.email,
       bgColor: '#4988C4',
       iconColor: '#F9FAFB',
     },
     {
       icon: <PhoneIcon sx={{ fontSize: 24 }} />,
       title: t('phone'),
-      value: '+212 717-458-335',
+      value: personalInfo.phone,
       bgColor: '#4988C4',
       iconColor: '#F9FAFB',
     },
@@ -77,12 +89,12 @@ const Contact = () => {
     },
   ];
 
-  const socialLinks = [
-    { icon: <GitHubIcon />, url: '#', label: 'GitHub' },
-    { icon: <LinkedInIcon />, url: '#', label: 'LinkedIn' },
-    { icon: <TwitterIcon />, url: '#', label: 'Twitter' },
-    { icon: <LanguageIcon />, url: '#', label: 'Website' },
-  ];
+  const socialLinks = personalInfo.socialLinks.map((social) => ({
+    icon: socialIconMap[social.platform] ?? <LanguageIcon />,
+    url: social.url,
+    label: social.platform,
+    external: !social.url.startsWith('mailto:'),
+  }));
 
   return (
     <Box
@@ -200,6 +212,8 @@ const Contact = () => {
                         component="a"
                         href={social.url}
                         aria-label={social.label}
+                        target={social.external ? '_blank' : undefined}
+                        rel={social.external ? 'noopener noreferrer' : undefined}
                         sx={{
                           width: 48,
                           height: 48,
@@ -378,6 +392,17 @@ const Contact = () => {
           </Grid>
         </Grid>
       </Container>
+
+      <Snackbar
+        open={submitted}
+        autoHideDuration={5000}
+        onClose={() => setSubmitted(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert onClose={() => setSubmitted(false)} severity="success" variant="filled" sx={{ width: '100%' }}>
+          {t('send')} ✓
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

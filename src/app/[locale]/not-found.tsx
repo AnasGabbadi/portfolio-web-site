@@ -1,10 +1,13 @@
 'use client';
 
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { Box, Container, Typography, Button } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 
 export default function NotFound() {
+  const t = useTranslations('notFound');
+
   return (
     <Box
       sx={{
@@ -26,13 +29,13 @@ export default function NotFound() {
               mb: 2,
             }}
           >
-            404
+            {t('code')}
           </Typography>
           <Typography variant="h4" fontWeight={700} gutterBottom>
-            Page Not Found
+            {t('title')}
           </Typography>
           <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
-            Sorry, the page you are looking for does not exist.
+            {t('description')}
           </Typography>
           <Button
             component={Link}
@@ -41,7 +44,7 @@ export default function NotFound() {
             size="large"
             startIcon={<HomeIcon />}
           >
-            Back to Home
+            {t('backHome')}
           </Button>
         </Box>
       </Container>

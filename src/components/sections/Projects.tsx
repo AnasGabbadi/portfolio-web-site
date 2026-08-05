@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { Box, Container, Typography, Button, Card, Grid, Chip, Stack } from '@mui/material';
 import { projects } from '@/data/projects';
 import { useProjectFilter } from '@/hooks/useProjectFilter';
@@ -11,8 +11,10 @@ import { Link } from '@/i18n/routing';
 
 const Projects = () => {
   const t = useTranslations('projects');
+  const locale = useLocale() as 'fr' | 'en';
   const { activeFilter, setActiveFilter, filteredProjects } = useProjectFilter(projects);
   const [showAllProjects, setShowAllProjects] = useState(false);
+  const [brokenImages, setBrokenImages] = useState<Set<string>>(new Set());
   const visibleProjects = showAllProjects ? filteredProjects : filteredProjects.slice(0, 6);
 
   const filters: { value: ProjectCategory; label: string }[] = [
@@ -59,7 +61,10 @@ const Projects = () => {
 
         {/* Projects Grid */}
         <Grid container spacing={4}>
-          {visibleProjects.map((project) => (
+          {visibleProjects.map((project) => {
+            const title = project.title[locale];
+            const description = project.description[locale];
+            return (
             <Grid size={{ xs: 12, sm: 6, lg: 4 }} key={project.id}>
               <Card
                 sx={{
@@ -80,7 +85,7 @@ const Projects = () => {
                     justifyContent: 'center',
                   }}
                 >
-                  {project.image ? (
+                  {project.image && !brokenImages.has(project.id) ? (
                     <Image
                       src={project.image}
                       alt=""
@@ -89,6 +94,9 @@ const Projects = () => {
                       style={{
                         objectFit: 'cover',
                       }}
+                      onError={() =>
+                        setBrokenImages((current) => new Set(current).add(project.id))
+                      }
                     />
                   ) : (
                     <i className="fas fa-image" style={{ fontSize: '4rem', color: '#9CA3AF' }}></i>
@@ -110,7 +118,7 @@ const Projects = () => {
                 >
                   <Box sx={{ textAlign: 'center', p: 3 }}>
                     <Typography variant="h6" color="white" fontWeight={700} gutterBottom>
-                      {project.title}
+                      {title}
                     </Typography>
                     <Typography
                       variant="body2"
@@ -123,19 +131,21 @@ const Projects = () => {
                         overflow: 'hidden',
                       }}
                     >
-                      {project.description}
+                      {description}
                     </Typography>
-                    <Stack direction="row" spacing={2} justifyContent="center">
-                      <Button
-                        component={Link}
-                        href={`/projects/${project.id}`}
-                        variant="contained"
-                        size="small"
-                        sx={{ bgcolor: 'white', color: 'primary.main', '&:hover': { bgcolor: 'grey.100' } }}
-                      >
-                        {t('viewDetails')}
-                      </Button>
-                      {project.demoUrl && (
+                    <Stack direction="row" spacing={2} useFlexGap flexWrap="wrap" justifyContent="center">
+                      {project.category !== 'school' && (
+                        <Button
+                          component={Link}
+                          href={`/projects/${project.id}`}
+                          variant="contained"
+                          size="small"
+                          sx={{ bgcolor: 'white', color: 'primary.main', '&:hover': { bgcolor: 'grey.100' } }}
+                        >
+                          {t('viewDetails')}
+                        </Button>
+                      )}
+                      {project.category !== 'school' && project.demoUrl && (
                         <Button
                           variant="outlined"
                           size="small"
@@ -149,13 +159,17 @@ const Projects = () => {
                       )}
                       {project.githubUrl && (
                         <Button
-                          variant="outlined"
+                          variant={project.category === 'school' ? 'contained' : 'outlined'}
                           size="small"
                           href={project.githubUrl}
                           target="_blank"
                           rel="noreferrer"
                           startIcon={<i className="fab fa-github" />}
-                          sx={{ borderColor: 'white', color: 'white', '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' } }}
+                          sx={
+                            project.category === 'school'
+                              ? { bgcolor: 'white', color: 'primary.main', '&:hover': { bgcolor: 'grey.100' } }
+                              : { borderColor: 'white', color: 'white', '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' } }
+                          }
                         >
                           {t('github')}
                         </Button>
@@ -165,7 +179,8 @@ const Projects = () => {
                 </Box>
               </Card>
             </Grid>
-          ))}
+            );
+          })}
         </Grid>
 
         {filteredProjects.length > 6 && (

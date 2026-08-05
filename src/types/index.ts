@@ -3,6 +3,12 @@ export interface NavLink {
   label: string;
 }
 
+/** Texte disponible dans les deux langues du site (fr/en). */
+export interface LocalizedText {
+  fr: string;
+  en: string;
+}
+
 export interface SocialLink {
   platform: string;
   url: string;
@@ -15,7 +21,7 @@ export interface PersonalInfo {
   description: string;
   email: string;
   phone: string;
-  location: string;
+  location: LocalizedText;
   birthday: string;
   degree: string;
   profileImage?: string;

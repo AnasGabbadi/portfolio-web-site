@@ -1,13 +1,31 @@
 'use client';
 
 import { useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { Box, Button, Container, Grid, Paper, Stack, Typography } from '@mui/material';
 import SchoolIcon from '@mui/icons-material/School';
 import WorkIcon from '@mui/icons-material/Work';
 import { education, professionalExperience, type CareerItem } from '@/data/career';
 
-const Timeline = ({ items }: { items: CareerItem[] }) => (
+type LocalizedCareerItem = {
+  period: string;
+  title: string;
+  organization: string;
+  location?: string;
+  description?: string;
+  highlights?: string[];
+};
+
+const localizeCareerItem = (item: CareerItem, locale: 'fr' | 'en'): LocalizedCareerItem => ({
+  period: item.period[locale],
+  title: item.title[locale],
+  organization: item.organization,
+  location: item.location?.[locale],
+  description: item.description?.[locale],
+  highlights: item.highlights?.map((highlight) => highlight[locale]),
+});
+
+const Timeline = ({ items }: { items: LocalizedCareerItem[] }) => (
   <Box sx={{ borderLeft: '2px solid', borderColor: 'primary.light', ml: 1, pl: 3.5 }}>
     {items.map((item, index) => (
       <Box key={`${item.title}-${index}`} sx={{ position: 'relative', pb: index === items.length - 1 ? 0 : 4 }}>
@@ -60,12 +78,22 @@ const Timeline = ({ items }: { items: CareerItem[] }) => (
 
 const Career = () => {
   const t = useTranslations('career');
+  const locale = useLocale() as 'fr' | 'en';
   const [showAllExperience, setShowAllExperience] = useState(false);
   const visibleExperience = showAllExperience ? professionalExperience : professionalExperience.slice(0, 3);
 
   const panels = [
-    { title: t('educationTitle'), icon: <SchoolIcon />, items: education },
-    { title: t('experienceTitle'), icon: <WorkIcon />, items: visibleExperience, expandable: professionalExperience.length > 3 },
+    {
+      title: t('educationTitle'),
+      icon: <SchoolIcon />,
+      items: education.map((item) => localizeCareerItem(item, locale)),
+    },
+    {
+      title: t('experienceTitle'),
+      icon: <WorkIcon />,
+      items: visibleExperience.map((item) => localizeCareerItem(item, locale)),
+      expandable: professionalExperience.length > 3,
+    },
   ];
 
   return (

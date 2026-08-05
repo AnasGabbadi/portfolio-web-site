@@ -52,24 +52,24 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
         }}
       >
         <Box sx={{ textAlign: 'center' }}>
-          <Typography 
-            variant="h6" 
-            color="white" 
-            fontWeight={700} 
+          <Typography
+            variant="h6"
+            color="white"
+            fontWeight={700}
             gutterBottom
           >
-            {project.title}
-          </Typography>
-          
-          <Typography 
-            variant="body2" 
-            color="white" 
-            sx={{ mb: 3, opacity: 0.95 }}
-          >
-            {project.description}
+            {project.title.fr}
           </Typography>
 
-          <Stack direction="row" spacing={2} justifyContent="center">
+          <Typography
+            variant="body2"
+            color="white"
+            sx={{ mb: 3, opacity: 0.95 }}
+          >
+            {project.description.fr}
+          </Typography>
+
+          <Stack direction="row" spacing={2} useFlexGap flexWrap="wrap" justifyContent="center">
             {project.detailsUrl && (
               <Button
                 variant="contained"

@@ -13,13 +13,14 @@
     "description": "I create beautiful, responsive websites and applications with clean code and exceptional user experiences.",
     "hireMe": "Hire Me",
     "viewProjects": "View Projects",
-    "availableForWork": "Available for work"
+    "availableForWork": "Available for work",
+    "typingWords": ["Full Stack Developer", "Problem Solver", "Creative Thinker"]
   },
   "about": {
     "title": "About",
     "highlight": "Me",
     "subtitle": "Full Stack Developer & UI/UX Designer",
-    "description1": "I'm a passionate developer with expertise in creating modern web applications. With over 5 years of experience, I've worked with various technologies and frameworks to deliver high-quality solutions for clients across different industries.",
+    "description1": "I'm a final-year computer engineering student, passionate about web development and automation. I've worked on several academic projects, internships, and freelance projects, and I enjoy designing and building web applications that are secure, well-structured, and high-performing.",
     "description2": "My approach combines technical excellence with creative problem-solving to build intuitive, user-friendly applications that meet business objectives while providing exceptional user experiences.",
     "name": "Name",
     "phone": "Phone",
@@ -68,8 +69,14 @@
     "design": "Design",
     "viewDetails": "View Details",
     "liveDemo": "Live Demo",
+    "requestQuote": "Request a Quote",
     "github": "GitHub",
     "gallery": "Project gallery",
+    "image": "Image",
+    "previousImage": "Previous image",
+    "nextImage": "Next image",
+    "zoomHint": "Click to zoom. Use the mouse wheel to adjust the zoom.",
+    "closeGallery": "Close gallery",
     "technologies": "Technologies used",
     "backToProjects": "Back to projects",
     "showMore": "Show more",
@@ -98,6 +105,12 @@
     "location": "Location",
     "phone": "Phone",
     "website": "Website"
+  },
+  "notFound": {
+    "code": "404",
+    "title": "Page Not Found",
+    "description": "Sorry, the page you are looking for does not exist.",
+    "backHome": "Back to Home"
   },
   "footer": {
     "description": "Building digital experiences that inspire and engage. Transforming ideas into reality through code.",

@@ -1,5 +1,8 @@
+import { LocalizedText } from './index';
+
 export interface SkillCategory {
-  title: string;
+  id: string;
+  title: LocalizedText;
   icon: string;
   skills: string[];
 }

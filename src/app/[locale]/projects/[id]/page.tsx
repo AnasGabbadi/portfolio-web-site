@@ -1,11 +1,12 @@
-import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { Box, Button, Chip, Container, Grid, Paper, Stack, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LaunchIcon from '@mui/icons-material/Launch';
+import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
 import { projects } from '@/data/projects';
+import ProjectGallery from '@/components/ui/ProjectGallery';
 
 export default async function ProjectDetailsPage({
   params,
@@ -20,8 +21,12 @@ export default async function ProjectDetailsPage({
   }
 
   const t = await getTranslations('projects');
+  const lang: 'fr' | 'en' = locale === 'en' ? 'en' : 'fr';
+  const title = project.title[lang];
+  const description = project.description[lang];
   const gallery = project.gallery?.length ? project.gallery : project.image ? [project.image] : [];
   const projectsUrl = locale === 'en' ? '/#projects' : `/${locale}/#projects`;
+  const contactUrl = locale === 'en' ? '/#contact' : `/${locale}/#contact`;
 
   return (
     <Box component="main" sx={{ py: { xs: 6, md: 10 }, bgcolor: 'background.default', minHeight: '70vh' }}>
@@ -37,57 +42,56 @@ export default async function ProjectDetailsPage({
 
         <Grid container spacing={{ xs: 4, md: 6 }} alignItems="flex-start">
           <Grid size={{ xs: 12, md: 7 }}>
-            <Typography variant="h1" sx={{ fontSize: { xs: '2.1rem', md: '3rem' }, mb: 2 }}>
-              {project.title}
-            </Typography>
-            <Typography variant="body1" color="text.secondary" sx={{ mb: 4, fontSize: '1.08rem' }}>
-              {project.description}
-            </Typography>
-
-            <Typography variant="h5" fontWeight={700} sx={{ mb: 2 }}>
-              {t('technologies')}
-            </Typography>
-            <Stack direction="row" flexWrap="wrap" gap={1} sx={{ mb: 4 }}>
-              {project.technologies.map((technology) => (
-                <Chip key={technology} label={technology} color="primary" variant="outlined" />
-              ))}
-            </Stack>
-
-            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5}>
-              {project.demoUrl && (
-                <Button variant="contained" href={project.demoUrl} target="_blank" rel="noreferrer" startIcon={<LaunchIcon />}>
-                  {t('liveDemo')}
-                </Button>
-              )}
-              {project.githubUrl && (
-                <Button variant="outlined" href={project.githubUrl} target="_blank" rel="noreferrer" startIcon={<GitHubIcon />}>
-                  {t('github')}
-                </Button>
-              )}
-            </Stack>
+            <Paper elevation={0} sx={{ p: { xs: 1.5, sm: 2 }, borderRadius: 4, border: '1px solid', borderColor: 'rgba(73,136,196,0.18)', bgcolor: 'background.paper' }}>
+              <ProjectGallery
+                images={gallery}
+                projectTitle={title}
+                previousLabel={t('previousImage')}
+                nextLabel={t('nextImage')}
+                imageLabel={t('image')}
+                zoomHint={t('zoomHint')}
+                closeLabel={t('closeGallery')}
+              />
+            </Paper>
           </Grid>
 
           <Grid size={{ xs: 12, md: 5 }}>
-            <Paper elevation={0} sx={{ p: 2, borderRadius: 3, border: '1px solid', borderColor: 'grey.200' }}>
-              <Typography variant="h5" fontWeight={700} sx={{ mb: 2 }}>
-                {t('gallery')}
+            <Box sx={{ pt: { md: 2 } }}>
+              <Typography variant="overline" color="primary.main" fontWeight={700} sx={{ letterSpacing: 1.2 }}>
+                {t(project.category)}
               </Typography>
-              <Grid container spacing={2}>
-                {gallery.map((image, index) => (
-                  <Grid size={{ xs: 12 }} key={image}>
-                    <Box sx={{ position: 'relative', height: { xs: 240, md: index === 0 ? 360 : 220 }, overflow: 'hidden', borderRadius: 2, bgcolor: 'grey.100' }}>
-                      <Image
-                        src={image}
-                        alt={`${project.title} – ${t('gallery')} ${index + 1}`}
-                        fill
-                        sizes="(max-width: 900px) 100vw, 42vw"
-                        style={{ objectFit: 'cover' }}
-                      />
-                    </Box>
-                  </Grid>
+              <Typography variant="h1" sx={{ fontSize: { xs: '2.1rem', md: '3rem' }, mb: 2, lineHeight: 1.15 }}>
+                {title}
+              </Typography>
+              <Typography variant="body1" color="text.secondary" sx={{ mb: 4, fontSize: '1.08rem' }}>
+                {description}
+              </Typography>
+
+              <Typography variant="h5" fontWeight={700} sx={{ mb: 2 }}>
+                {t('technologies')}
+              </Typography>
+              <Stack direction="row" flexWrap="wrap" gap={1} sx={{ mb: 4 }}>
+                {project.technologies.map((technology) => (
+                  <Chip key={technology} label={technology} color="primary" variant="outlined" />
                 ))}
-              </Grid>
-            </Paper>
+              </Stack>
+
+              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5} useFlexGap flexWrap="wrap">
+                {project.category === 'professional' && project.demoUrl && (
+                  <Button variant="contained" href={project.demoUrl} target="_blank" rel="noreferrer" startIcon={<LaunchIcon />}>
+                    {t('liveDemo')}
+                  </Button>
+                )}
+                <Button variant="outlined" href={contactUrl} startIcon={<RequestQuoteIcon />}>
+                  {t('requestQuote')}
+                </Button>
+                {project.category === 'school' && project.githubUrl && (
+                  <Button variant="outlined" href={project.githubUrl} target="_blank" rel="noreferrer" startIcon={<GitHubIcon />}>
+                    {t('github')}
+                  </Button>
+                )}
+              </Stack>
+            </Box>
           </Grid>
         </Grid>
       </Container>

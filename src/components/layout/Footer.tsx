@@ -1,54 +1,56 @@
+'use client';
+
 import Link from 'next/link';
-import { 
-  Box, 
-  Container, 
-  Grid, 
-  Typography, 
-  IconButton, 
+import { useTranslations, useLocale } from 'next-intl';
+import {
+  Box,
+  Container,
+  Grid,
+  Typography,
+  IconButton,
   Stack,
-  TextField,
-  Button,
   Divider,
 } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import InstagramIcon from '@mui/icons-material/Instagram';
+import LanguageIcon from '@mui/icons-material/Language';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import SendIcon from '@mui/icons-material/Send';
 import CodeIcon from '@mui/icons-material/Code';
 import { personalInfo } from '@/data/personal-info';
 
+const socialIconMap: Record<string, React.ReactNode> = {
+  GitHub: <GitHubIcon />,
+  LinkedIn: <LinkedInIcon />,
+  Email: <EmailIcon />,
+};
+
 const Footer = () => {
+  const t = useTranslations('footer');
+  const tNav = useTranslations('nav');
+  const locale = useLocale() as 'fr' | 'en';
   const currentYear = new Date().getFullYear();
 
   const quickLinks = [
-    { href: '#home', label: 'Home' },
-    { href: '#about', label: 'About' },
-    { href: '#services', label: 'Services' },
-    { href: '#projects', label: 'Projects' },
+    { href: '#home', label: tNav('home') },
+    { href: '#about', label: tNav('about') },
+    { href: '#skills', label: tNav('skills') },
+    { href: '#projects', label: tNav('projects') },
+    { href: '#contact', label: tNav('contact') },
   ];
 
-  const services = [
-    { href: '#services', label: 'Web Development' },
-    { href: '#services', label: 'Mobile Apps' },
-    { href: '#services', label: 'UI/UX Design' },
-    { href: '#services', label: 'Consulting' },
-  ];
-
-  const socialLinks = [
-    { platform: 'GitHub', url: '#', icon: <GitHubIcon />, color: '#333' },
-    { platform: 'LinkedIn', url: '#', icon: <LinkedInIcon />, color: '#0A66C2' },
-    { platform: 'Twitter', url: '#', icon: <TwitterIcon />, color: '#1DA1F2' },
-    { platform: 'Instagram', url: '#', icon: <InstagramIcon />, color: '#E4405F' },
-  ];
+  const socialLinks = personalInfo.socialLinks.map((social) => ({
+    platform: social.platform,
+    url: social.url,
+    icon: socialIconMap[social.platform] ?? <LanguageIcon />,
+    external: !social.url.startsWith('mailto:'),
+  }));
 
   const contactInfo = [
     { icon: <EmailIcon sx={{ fontSize: 20 }} />, text: personalInfo.email },
     { icon: <PhoneIcon sx={{ fontSize: 20 }} />, text: personalInfo.phone },
-    { icon: <LocationOnIcon sx={{ fontSize: 20 }} />, text: personalInfo.location },
+    { icon: <LocationOnIcon sx={{ fontSize: 20 }} />, text: personalInfo.location[locale] },
   ];
 
   return (
@@ -75,7 +77,7 @@ const Footer = () => {
         <Box sx={{ py: 8 }}>
           <Grid container spacing={4}>
             {/* Company Info */}
-            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <Grid size={{ xs: 12, sm: 6, md: 4 }}>
               <Box sx={{ mb: 3 }}>
                 <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 2 }}>
                   <CodeIcon sx={{ color: 'primary.main', fontSize: 32 }} />
@@ -84,17 +86,17 @@ const Footer = () => {
                     <Box component="span" sx={{ color: 'white' }}>Anas</Box>
                   </Typography>
                 </Stack>
-                <Typography 
-                  variant="body2" 
-                  sx={{ 
+                <Typography
+                  variant="body2"
+                  sx={{
                     color: '#94A3B8',
                     lineHeight: 1.7,
                     mb: 3,
                   }}
                 >
-                  Building digital experiences that inspire and engage. Transforming ideas into reality through code.
+                  {t('description')}
                 </Typography>
-                
+
                 {/* Social Links */}
                 <Stack direction="row" spacing={1}>
                   {socialLinks.map((social) => (
@@ -103,6 +105,8 @@ const Footer = () => {
                       component="a"
                       href={social.url}
                       aria-label={social.platform}
+                      target={social.external ? '_blank' : undefined}
+                      rel={social.external ? 'noopener noreferrer' : undefined}
                       sx={{
                         bgcolor: 'rgba(255, 255, 255, 0.05)',
                         color: 'white',
@@ -123,13 +127,13 @@ const Footer = () => {
             </Grid>
 
             {/* Quick Links */}
-            <Grid size={{ xs: 12, sm: 6, md: 2 }}>
-              <Typography 
-                variant="h6" 
-                fontWeight={600} 
+            <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+              <Typography
+                variant="h6"
+                fontWeight={600}
                 sx={{ mb: 3, color: 'white' }}
               >
-                Quick Links
+                {t('quickLinks')}
               </Typography>
               <Stack spacing={1.5}>
                 {quickLinks.map((link) => (
@@ -157,49 +161,14 @@ const Footer = () => {
               </Stack>
             </Grid>
 
-            {/* Services */}
-            <Grid size={{ xs: 12, sm: 6, md: 2 }}>
-              <Typography 
-                variant="h6" 
-                fontWeight={600} 
-                sx={{ mb: 3, color: 'white' }}
-              >
-                Services
-              </Typography>
-              <Stack spacing={1.5}>
-                {services.map((service) => (
-                  <Link
-                    key={service.label}
-                    href={service.href}
-                    style={{ textDecoration: 'none' }}
-                  >
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        color: '#94A3B8',
-                        cursor: 'pointer',
-                        transition: 'all 0.3s',
-                        '&:hover': {
-                          color: 'primary.main',
-                          paddingLeft: '8px',
-                        },
-                      }}
-                    >
-                      {service.label}
-                    </Typography>
-                  </Link>
-                ))}
-              </Stack>
-            </Grid>
-
             {/* Contact Info */}
-            <Grid size={{ xs: 12, sm: 6, md: 2 }}>
-              <Typography 
-                variant="h6" 
-                fontWeight={600} 
+            <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+              <Typography
+                variant="h6"
+                fontWeight={600}
                 sx={{ mb: 3, color: 'white' }}
               >
-                Contact
+                {t('contact')}
               </Typography>
               <Stack spacing={2}>
                 {contactInfo.map((info, index) => (
@@ -245,10 +214,10 @@ const Footer = () => {
               textAlign: { xs: 'center', md: 'left' },
             }}
           >
-            &copy; {currentYear}. All rights reserved. Crafted with{' '}
-            <Box 
-              component="span" 
-              sx={{ 
+            &copy; {currentYear}. {t('rights')}{' '}
+            <Box
+              component="span"
+              sx={{
                 color: 'primary.main',
                 animation: 'heartbeat 1.5s ease-in-out infinite',
                 '@keyframes heartbeat': {
@@ -260,57 +229,8 @@ const Footer = () => {
             >
               ♥
             </Box>{' '}
-            by GABBADI Anas
+            {t('by')} GABBADI Anas
           </Typography>
-
-          <Stack 
-            direction="row" 
-            spacing={3}
-            sx={{
-              color: '#64748B',
-              fontSize: '0.875rem',
-            }}
-          >
-            <Link href="#" style={{ textDecoration: 'none', color: 'inherit' }}>
-              <Typography 
-                variant="body2"
-                sx={{
-                  '&:hover': {
-                    color: 'primary.main',
-                  },
-                  transition: 'color 0.3s',
-                }}
-              >
-                Privacy Policy
-              </Typography>
-            </Link>
-            <Link href="#" style={{ textDecoration: 'none', color: 'inherit' }}>
-              <Typography 
-                variant="body2"
-                sx={{
-                  '&:hover': {
-                    color: 'primary.main',
-                  },
-                  transition: 'color 0.3s',
-                }}
-              >
-                Terms of Service
-              </Typography>
-            </Link>
-            <Link href="#" style={{ textDecoration: 'none', color: 'inherit' }}>
-              <Typography 
-                variant="body2"
-                sx={{
-                  '&:hover': {
-                    color: 'primary.main',
-                  },
-                  transition: 'color 0.3s',
-                }}
-              >
-                Cookie Policy
-              </Typography>
-            </Link>
-          </Stack>
         </Box>
       </Container>
 

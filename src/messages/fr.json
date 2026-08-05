@@ -13,7 +13,8 @@
     "description": "Passionné par la création de solutions web performantes, j’ai travaillé sur plusieurs projets académiques, stages en entreprise et missions freelance.",
     "hireMe": "Engagez-moi",
     "viewProjects": "Voir les projets",
-    "availableForWork": "Disponible pour travailler"
+    "availableForWork": "Disponible pour travailler",
+    "typingWords": ["Développeur Full Stack", "Résolveur de problèmes", "Penseur créatif"]
   },
   "about": {
     "title": "À",
@@ -68,8 +69,14 @@
     "design": "Design",
     "viewDetails": "Voir les détails",
     "liveDemo": "Démo en direct",
+    "requestQuote": "Demander un devis",
     "github": "GitHub",
     "gallery": "Galerie du projet",
+    "image": "Image",
+    "previousImage": "Image précédente",
+    "nextImage": "Image suivante",
+    "zoomHint": "Cliquez pour zoomer. Utilisez la molette pour ajuster le zoom.",
+    "closeGallery": "Fermer la galerie",
     "technologies": "Technologies utilisées",
     "backToProjects": "Retour aux projets",
     "showMore": "Afficher plus",
@@ -98,6 +105,12 @@
     "location": "Localisation",
     "phone": "Téléphone",
     "website": "Site web"
+  },
+  "notFound": {
+    "code": "404",
+    "title": "Page introuvable",
+    "description": "Désolé, la page que vous recherchez n'existe pas.",
+    "backHome": "Retour à l'accueil"
   },
   "footer": {
     "description": "Créer des expériences numériques qui inspirent et engagent. Transformer les idées en réalité à travers le code.",

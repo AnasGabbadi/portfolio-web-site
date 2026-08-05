@@ -4,12 +4,12 @@ import { useTranslations } from 'next-intl';
 import { Box, Container, Typography, Button, Stack, IconButton, Tooltip } from '@mui/material';
 import { personalInfo } from '@/data/personal-info';
 import { useTypingEffect } from '@/hooks/useTypingEffect';
-import { TYPING_WORDS } from '@/lib/constants';
 import Image from 'next/image';
 
 const Hero = () => {
   const t = useTranslations('hero');
-  const typingText = useTypingEffect(TYPING_WORDS);
+  const typingWords = t.raw('typingWords') as string[];
+  const typingText = useTypingEffect(typingWords);
 
   return (
     <Box
@@ -243,6 +243,8 @@ const Hero = () => {
             <Stack
               direction={{ xs: 'column', sm: 'row' }}
               spacing={2}
+              useFlexGap
+              flexWrap="wrap"
               sx={{
                 mb: 5,
                 justifyContent: { xs: 'center', md: 'flex-start' },

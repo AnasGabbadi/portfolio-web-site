@@ -12,10 +12,6 @@ import {
   CardContent,
   Avatar,
 } from '@mui/material';
-import PhoneIcon from '@mui/icons-material/Phone';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import CakeIcon from '@mui/icons-material/Cake';
-import EmailIcon from '@mui/icons-material/Email';
 import SchoolIcon from '@mui/icons-material/School';
 import WorkIcon from '@mui/icons-material/Work';
 import DownloadIcon from '@mui/icons-material/Download';
@@ -136,7 +132,9 @@ const About = () => {
               <Button
                 variant="contained"
                 size="large"
-                href="/cv/resume.pdf"
+                href="/cv/GABBADI%20Anas.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
                 startIcon={<DownloadIcon />}
                 sx={{
                   px: 4,

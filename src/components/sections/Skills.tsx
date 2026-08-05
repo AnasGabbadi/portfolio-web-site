@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { Box, Button, Container, Typography, Grid, Paper, Stack } from '@mui/material';
 import { skillCategories } from '@/data/skills';
 
@@ -16,6 +16,7 @@ const categoryAccents = [
 
 const Skills = () => {
   const t = useTranslations('skills');
+  const locale = useLocale() as 'fr' | 'en';
   const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({});
 
   return (
@@ -56,12 +57,13 @@ const Skills = () => {
         <Grid container spacing={3} alignItems="flex-start">
           {skillCategories.map((category, catIndex) => {
             const accent = categoryAccents[catIndex % categoryAccents.length];
-            const isExpanded = expandedCategories[category.title] ?? false;
+            const categoryTitle = category.title[locale];
+            const isExpanded = expandedCategories[category.id] ?? false;
             const visibleSkills = isExpanded ? category.skills : category.skills.slice(0, 6);
             const hasMoreSkills = category.skills.length > 6;
 
             return (
-              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={category.title}>
+              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={category.id}>
                 <Paper
                   elevation={0}
                   sx={{
@@ -99,7 +101,7 @@ const Skills = () => {
                       <i className={category.icon} style={{ fontSize: '1rem', color: accent.iconColor }} />
                     </Box>
                     <Typography variant="h6" fontWeight={600} sx={{ fontSize: '1rem' }}>
-                      {category.title}
+                      {categoryTitle}
                     </Typography>
                   </Stack>
 
@@ -135,7 +137,7 @@ const Skills = () => {
                       size="small"
                       onClick={() => setExpandedCategories((expanded) => ({
                         ...expanded,
-                        [category.title]: !isExpanded,
+                        [category.id]: !isExpanded,
                       }))}
                       sx={{ alignSelf: 'flex-start', mt: 2, px: 0, textTransform: 'none', color: accent.iconColor }}
                     >
