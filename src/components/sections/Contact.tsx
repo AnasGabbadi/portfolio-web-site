@@ -146,13 +146,6 @@ const Contact = () => {
       bgColor: '#4988C4',
       iconColor: '#F9FAFB',
     },
-    {
-      icon: <LanguageIcon sx={{ fontSize: 24 }} />,
-      title: t('website'),
-      value: 'https://portfolio-web-site-cyan.vercel.app',
-      bgColor: '#4988C4',
-      iconColor: '#F9FAFB',
-    },
   ];
 
   const socialLinks = personalInfo.socialLinks.map((social) => ({
