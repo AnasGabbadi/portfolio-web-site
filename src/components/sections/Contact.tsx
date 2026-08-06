@@ -25,16 +25,35 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import { personalInfo } from '@/data/personal-info';
 
+const FIELD_LIMITS = {
+  name: 100,
+  email: 254,
+  phone: 20,
+  subject: 200,
+  message: 5000,
+} as const;
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PHONE_REGEX = /^\+?[0-9\s\-().]{7,20}$/;
+
+type ContactField = 'name' | 'email' | 'phone' | 'subject' | 'message';
+
 const Contact = () => {
   const t = useTranslations('contact');
   const locale = useLocale() as 'fr' | 'en';
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     subject: '',
     message: '',
+    // Honeypot: left empty by real users, auto-filled by most spam bots.
+    website: '',
   });
+  const [fieldErrors, setFieldErrors] = useState<Partial<Record<ContactField, string>>>({});
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState(false);
+  const [sending, setSending] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -43,13 +62,60 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const validate = (): boolean => {
+    const errors: Partial<Record<ContactField, string>> = {};
+
+    if (!formData.name.trim()) errors.name = t('requiredField');
+    else if (formData.name.trim().length > FIELD_LIMITS.name) errors.name = t('tooLong');
+
+    if (!formData.email.trim()) errors.email = t('requiredField');
+    else if (!EMAIL_REGEX.test(formData.email.trim())) errors.email = t('invalidEmail');
+
+    if (!formData.phone.trim()) errors.phone = t('requiredField');
+    else if (!PHONE_REGEX.test(formData.phone.trim())) errors.phone = t('invalidPhone');
+
+    if (!formData.subject.trim()) errors.subject = t('requiredField');
+    else if (formData.subject.trim().length > FIELD_LIMITS.subject) errors.subject = t('tooLong');
+
+    if (!formData.message.trim()) errors.message = t('requiredField');
+    else if (formData.message.trim().length > FIELD_LIMITS.message) errors.message = t('tooLong');
+
+    setFieldErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Mode démo : aucun backend n'est branché sur ce formulaire.
-    // On évite alert()/confirm() qui bloquent le thread JS de la page.
-    console.log('Form submitted:', formData);
-    setSubmitted(true);
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    setError(false);
+
+    if (!validate()) return;
+
+    setSending(true);
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          phone: formData.phone.trim(),
+          subject: formData.subject.trim(),
+          message: formData.message.trim(),
+          website: formData.website,
+        }),
+      });
+
+      if (!res.ok) throw new Error('Request failed');
+
+      setSubmitted(true);
+      setFormData({ name: '', email: '', phone: '', subject: '', message: '', website: '' });
+      setFieldErrors({});
+    } catch {
+      setError(true);
+    } finally {
+      setSending(false);
+    }
   };
 
   const socialIconMap: Record<string, React.ReactNode> = {
@@ -254,7 +320,26 @@ const Contact = () => {
                   {t('sendMessage')}
                 </Typography>
 
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} noValidate>
+                  {/* Honeypot field: hidden from real users, catches basic bots. */}
+                  <Box
+                    sx={{
+                      width: 0,
+                      height: 0,
+                      overflow: 'hidden',
+                      opacity: 0,
+                    }}
+                    aria-hidden="true"
+                  >
+                    <TextField
+                      name="website"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={formData.website}
+                      onChange={handleChange}
+                    />
+                  </Box>
+
                   <Grid container spacing={3}>
                     <Grid size={{ xs: 12, sm: 6 }}>
                       <Typography
@@ -272,6 +357,9 @@ const Contact = () => {
                         onChange={handleChange}
                         required
                         variant="outlined"
+                        error={Boolean(fieldErrors.name)}
+                        helperText={fieldErrors.name}
+                        slotProps={{ htmlInput: { maxLength: FIELD_LIMITS.name } }}
                         sx={{
                           '& .MuiOutlinedInput-root': {
                             bgcolor: '#F9FAFB',
@@ -298,6 +386,9 @@ const Contact = () => {
                         onChange={handleChange}
                         required
                         variant="outlined"
+                        error={Boolean(fieldErrors.email)}
+                        helperText={fieldErrors.email}
+                        slotProps={{ htmlInput: { maxLength: FIELD_LIMITS.email } }}
                         sx={{
                           '& .MuiOutlinedInput-root': {
                             bgcolor: '#F9FAFB',
@@ -308,7 +399,37 @@ const Contact = () => {
                       />
                     </Grid>
 
-                    <Grid size={{ xs: 12 }}>
+                    <Grid size={{ xs: 12, sm: 6 }}>
+                      <Typography
+                        variant="body2"
+                        fontWeight={500}
+                        sx={{ mb: 1, color: '#374151' }}
+                      >
+                        {t('phone')}
+                      </Typography>
+                      <TextField
+                        fullWidth
+                        name="phone"
+                        type="tel"
+                        placeholder={t('yourPhone')}
+                        value={formData.phone}
+                        onChange={handleChange}
+                        required
+                        variant="outlined"
+                        error={Boolean(fieldErrors.phone)}
+                        helperText={fieldErrors.phone}
+                        slotProps={{ htmlInput: { maxLength: FIELD_LIMITS.phone } }}
+                        sx={{
+                          '& .MuiOutlinedInput-root': {
+                            bgcolor: '#F9FAFB',
+                            '& fieldset': { borderColor: '#E5E7EB' },
+                            '&:hover fieldset': { borderColor: '#1C4D8D' },
+                          },
+                        }}
+                      />
+                    </Grid>
+
+                    <Grid size={{ xs: 12, sm: 6 }}>
                       <Typography
                         variant="body2"
                         fontWeight={500}
@@ -324,6 +445,9 @@ const Contact = () => {
                         onChange={handleChange}
                         required
                         variant="outlined"
+                        error={Boolean(fieldErrors.subject)}
+                        helperText={fieldErrors.subject}
+                        slotProps={{ htmlInput: { maxLength: FIELD_LIMITS.subject } }}
                         sx={{
                           '& .MuiOutlinedInput-root': {
                             bgcolor: '#F9FAFB',
@@ -352,6 +476,9 @@ const Contact = () => {
                         multiline
                         rows={6}
                         variant="outlined"
+                        error={Boolean(fieldErrors.message)}
+                        helperText={fieldErrors.message}
+                        slotProps={{ htmlInput: { maxLength: FIELD_LIMITS.message } }}
                         sx={{
                           '& .MuiOutlinedInput-root': {
                             bgcolor: '#F9FAFB',
@@ -369,6 +496,7 @@ const Contact = () => {
                         size="large"
                         endIcon={<SendIcon />}
                         fullWidth
+                        disabled={sending}
                         sx={{
                           bgcolor: '#4988C4',
                           color: 'white',
@@ -380,9 +508,13 @@ const Contact = () => {
                           '&:hover': {
                             bgcolor: '#1C4D8D',
                           },
+                          '&.Mui-disabled': {
+                            bgcolor: '#9CA3AF',
+                            color: 'white',
+                          },
                         }}
                       >
-                        {t('send')}
+                        {sending ? t('sending') : t('send')}
                       </Button>
                     </Grid>
                   </Grid>
@@ -400,7 +532,18 @@ const Contact = () => {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
         <Alert onClose={() => setSubmitted(false)} severity="success" variant="filled" sx={{ width: '100%' }}>
-          {t('send')} ✓
+          {t('successMessage')}
+        </Alert>
+      </Snackbar>
+
+      <Snackbar
+        open={error}
+        autoHideDuration={5000}
+        onClose={() => setError(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert onClose={() => setError(false)} severity="error" variant="filled" sx={{ width: '100%' }}>
+          {t('errorMessage')}
         </Alert>
       </Snackbar>
     </Box>
