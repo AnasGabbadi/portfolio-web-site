@@ -14,6 +14,7 @@ export const personalInfo: PersonalInfo = {
   degree: 'Ingénierie Logicielle',
   yearsExperience: 1, 
   
+  
   socialLinks: [
     {
       platform: 'LinkedIn',
