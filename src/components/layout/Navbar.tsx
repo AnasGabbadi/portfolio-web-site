@@ -51,7 +51,7 @@ const Navbar = () => {
             <Link href="#home" style={{ textDecoration: 'none' }}>
               <Box sx={{ fontSize: '1.75rem', fontWeight: 'bold', display: 'flex' }}>
                 <Box component="span" sx={{ color: 'primary.main' }}>Gabbadi</Box>
-                <Box component="span" sx={{ color: 'secondary.main' }}>Anas</Box>
+                <Box component="span" sx={{ color: 'secondary.main', ml: 0.75 }}>Anas</Box>
               </Box>
             </Link>
 

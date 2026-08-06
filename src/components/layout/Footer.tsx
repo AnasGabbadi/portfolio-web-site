@@ -82,7 +82,7 @@ const Footer = () => {
                 <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 2 }}>
                   <CodeIcon sx={{ color: 'primary.main', fontSize: 32 }} />
                   <Typography variant="h5" fontWeight={700}>
-                    <Box component="span" sx={{ color: 'primary.main' }}>Gabbadi</Box>
+                    <Box component="span" sx={{ color: 'primary.main' }}>Gabbadi </Box>
                     <Box component="span" sx={{ color: 'white' }}>Anas</Box>
                   </Typography>
                 </Stack>
