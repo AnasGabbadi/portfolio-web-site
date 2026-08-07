@@ -1,4 +1,9 @@
 {
+  "meta": {
+    "title": "Anas Gabbadi | Développeur Full Stack & Étudiant Ingénieur",
+    "description": "Portfolio de Anas Gabbadi, développeur Full Stack et étudiant ingénieur en dernière année à Fès, Maroc. Découvrez mes projets web, compétences et services en React, Next.js et PHP.",
+    "keywords": "Anas Gabbadi, Gabbadi Anas, Développeur Full Stack, Développeur Web Maroc, Développeur Next.js, Développeur React, Ingénieur Logiciel, Fès, Portfolio"
+  },
   "nav": {
     "home": "Accueil",
     "about": "À propos",

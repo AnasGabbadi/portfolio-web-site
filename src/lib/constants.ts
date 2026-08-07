@@ -1,8 +1,8 @@
 export const SITE_CONFIG = {
-  name: 'Anas Gabbadi',
-  title: 'Anas Gabbadi - Full Stack Developer',
-  description: 'Full Stack Developer & UI/UX Designer',
-  url: 'https://yourwebsite.com',
+  name: 'Gabbadi Anas',
+  title: 'Gabbadi Anas - Full Stack Developer',
+  description: 'Full Stack Developer',
+  url: 'https://gabbadianas.dev',
 };
 
 export const COLORS = {

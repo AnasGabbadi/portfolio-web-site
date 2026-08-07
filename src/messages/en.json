@@ -1,4 +1,9 @@
 {
+  "meta": {
+    "title": "Anas Gabbadi | Full Stack Developer & Engineering Student",
+    "description": "Portfolio of Anas Gabbadi, a Full Stack Developer and final-year engineering student based in Fès, Morocco. Discover web development projects, skills, and services in React, Next.js, and PHP.",
+    "keywords": "Anas Gabbadi, Gabbadi Anas, Full Stack Developer, Web Developer Morocco, Next.js Developer, React Developer, Software Engineer, Fès, Portfolio"
+  },
   "nav": {
     "home": "Home",
     "about": "About",

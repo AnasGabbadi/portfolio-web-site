@@ -1,7 +1,7 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
+import { getMessages, getTranslations } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
@@ -9,6 +9,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 import theme from '@/theme/theme';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import { SITE_CONFIG, COLORS } from '@/lib/constants';
+import { personalInfo } from '@/data/personal-info';
 import './globals.css';
 
 const inter = Inter({
@@ -17,10 +19,66 @@ const inter = Inter({
   display: 'swap',
 });
 
-export const metadata: Metadata = {
-  title: 'DevFolio - Developer Portfolio',
-  description: 'Full Stack Developer & UI/UX Designer Portfolio',
+export const viewport: Viewport = {
+  themeColor: COLORS.primary,
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'meta' });
+  const path = locale === routing.defaultLocale ? '/' : `/${locale}`;
+
+  return {
+    metadataBase: new URL(SITE_CONFIG.url),
+    title: {
+      default: t('title'),
+      template: `%s | ${personalInfo.name}`,
+    },
+    description: t('description'),
+    keywords: t('keywords').split(', '),
+    authors: [{ name: personalInfo.name, url: SITE_CONFIG.url }],
+    creator: personalInfo.name,
+    alternates: {
+      canonical: path,
+      languages: {
+        en: '/',
+        fr: '/fr',
+        'x-default': '/',
+      },
+    },
+    openGraph: {
+      type: 'website',
+      locale: locale === 'fr' ? 'fr_FR' : 'en_US',
+      url: path,
+      siteName: personalInfo.name,
+      title: t('title'),
+      description: t('description'),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: t('title'),
+      description: t('description'),
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
+    icons: {
+      icon: '/favicon.ico',
+      apple: '/favicon_256.png',
+    },
+  };
+}
 
 export default async function LocaleLayout({
   children,
@@ -30,7 +88,7 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  
+
   let messages;
   try {
     messages = await getMessages();
@@ -39,12 +97,35 @@ export default async function LocaleLayout({
     messages = await getMessages({ locale: routing.defaultLocale });
   }
 
+  const lang: 'fr' | 'en' = locale === 'fr' ? 'fr' : 'en';
+  const personJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: personalInfo.name,
+    jobTitle: personalInfo.title,
+    description: personalInfo.description,
+    url: SITE_CONFIG.url,
+    image: `${SITE_CONFIG.url}${personalInfo.profileImage}`,
+    email: personalInfo.email,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: personalInfo.location[lang],
+    },
+    sameAs: personalInfo.socialLinks
+      .filter((link) => link.platform !== 'Email')
+      .map((link) => link.url),
+  };
+
   return (
     <html lang={locale}>
       <head>
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
       </head>
       <body className={inter.className}>

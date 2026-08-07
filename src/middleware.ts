@@ -6,7 +6,14 @@ const intlMiddleware = createMiddleware(routing);
 
 export default function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  
+
+  // Laisser passer les routes de métadonnées générées par Next (og:image, etc.)
+  // sans les faire transiter par la logique de locale, sinon next-intl les
+  // redirige vers "/" et casse l'aperçu de partage sur les réseaux sociaux.
+  if (/\/(opengraph-image|twitter-image|icon|apple-icon)(\.[a-zA-Z0-9]+)?$/.test(pathname)) {
+    return NextResponse.next();
+  }
+
   // Extraire la locale du pathname
   const locale = pathname.split('/')[1];
   
