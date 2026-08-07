@@ -194,7 +194,7 @@ const Hero = () => {
                   WebkitTextFillColor: 'transparent',
                 }}
               >
-                {personalInfo.name.split(' ')[0]}
+                {personalInfo.name.split(' ')[1]}
               </Box>
             </Typography>
 

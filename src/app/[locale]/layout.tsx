@@ -11,6 +11,7 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { SITE_CONFIG, COLORS } from '@/lib/constants';
 import { personalInfo } from '@/data/personal-info';
+import { skillCategories } from '@/data/skills';
 import './globals.css';
 
 const inter = Inter({
@@ -74,8 +75,14 @@ export async function generateMetadata({
       },
     },
     icons: {
-      icon: '/favicon.ico',
-      apple: '/favicon_256.png',
+      icon: [
+        { url: '/favicon.ico', sizes: 'any' },
+        { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+        { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+        { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+        { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+      ],
+      apple: '/apple-touch-icon.png',
     },
   };
 }
@@ -98,22 +105,37 @@ export default async function LocaleLayout({
   }
 
   const lang: 'fr' | 'en' = locale === 'fr' ? 'fr' : 'en';
-  const personJsonLd = {
+  const knowsAbout = skillCategories.flatMap((category) => category.skills);
+  const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'Person',
-    name: personalInfo.name,
-    jobTitle: personalInfo.title,
-    description: personalInfo.description,
-    url: SITE_CONFIG.url,
-    image: `${SITE_CONFIG.url}${personalInfo.profileImage}`,
-    email: personalInfo.email,
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: personalInfo.location[lang],
-    },
-    sameAs: personalInfo.socialLinks
-      .filter((link) => link.platform !== 'Email')
-      .map((link) => link.url),
+    '@graph': [
+      {
+        '@type': 'Person',
+        '@id': `${SITE_CONFIG.url}/#person`,
+        name: personalInfo.name,
+        jobTitle: personalInfo.title,
+        description: personalInfo.description,
+        url: SITE_CONFIG.url,
+        image: `${SITE_CONFIG.url}${personalInfo.profileImage}`,
+        email: personalInfo.email,
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: personalInfo.location[lang],
+        },
+        knowsAbout,
+        sameAs: personalInfo.socialLinks
+          .filter((link) => link.platform !== 'Email')
+          .map((link) => link.url),
+      },
+      {
+        '@type': 'WebSite',
+        '@id': `${SITE_CONFIG.url}/#website`,
+        name: personalInfo.name,
+        url: SITE_CONFIG.url,
+        inLanguage: locale,
+        publisher: { '@id': `${SITE_CONFIG.url}/#person` },
+      },
+    ],
   };
 
   return (
@@ -125,7 +147,7 @@ export default async function LocaleLayout({
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
       <body className={inter.className}>

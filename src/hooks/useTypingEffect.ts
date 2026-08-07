@@ -8,7 +8,7 @@ export const useTypingEffect = (
   deletingSpeed = 50,
   delayBetweenWords = 2000
 ) => {
-  const [text, setText] = useState('');
+  const [text, setText] = useState(words[0] ?? '');
   const [wordIndex, setWordIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
 
